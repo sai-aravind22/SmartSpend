@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartSpend — Smart Personal Expense Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z'/></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="brand-text">
+                <h2>SmartSpend</h2>
+                <span>Track Smarter. Spend Better.</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Menu</div>
+            <a href="index.html" class="sidebar-link active">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="transactions.html" class="sidebar-link">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="budgets.html" class="sidebar-link">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Budgets</span>
+            </a>
+            <a href="reports.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Reports & Analytics</span>
+            </a>
+
+            <div class="nav-section-title mt-4">System</div>
+            <a href="settings.html" class="sidebar-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-badge">
+                <div class="user-avatar" id="userAvatar">SS</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Alex Morgan</div>
+                    <div class="user-role" id="userEmail">demo@smartspend.com</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" id="btnLogout" title="Sign out of your account">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Sticky Header -->
+        <header class="top-navbar">
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Dashboard</h1>
+                    <p>Overview of your income, expenses, and personal finance health</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Month & Year Selector -->
+                <div class="d-flex align-items-center gap-2">
+                    <select id="selectMonth" class="form-select form-select-custom form-select-sm" style="width: 130px;">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="selectYear" class="form-select form-select-custom form-select-sm" style="width: 100px;">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+
+                <!-- Theme Toggle -->
+                <button type="button" class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <!-- Quick Action Buttons -->
+                <button type="button" class="btn btn-success-custom btn-sm" id="btnQuickAddIncome">
+                    <i class="fa-solid fa-plus"></i> <span class="d-none d-sm-inline">Add Income</span>
+                </button>
+                <button type="button" class="btn btn-danger-custom btn-sm" id="btnQuickAddExpense">
+                    <i class="fa-solid fa-minus"></i> <span class="d-none d-sm-inline">Add Expense</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Body Content -->
+        <main class="content-body">
+            <!-- 6 Financial Summary Cards -->
+            <div class="row g-3 mb-4">
+                <!-- 1. Total Income -->
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="stat-card income">
+                        <div class="stat-header">
+                            <span class="stat-label">Total Income</span>
+                            <div class="stat-icon income">
+                                <i class="fa-solid fa-arrow-trend-up"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="cardIncome">₹0.00</div>
+                        <div class="stat-subtext">
+                            <i class="fa-solid fa-circle-check text-success"></i>
+                            <span>Deposits & incoming funds</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Total Expenses -->
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="stat-card expense">
+                        <div class="stat-header">
+                            <span class="stat-label">Total Expenses</span>
+                            <div class="stat-icon expense">
+                                <i class="fa-solid fa-arrow-trend-down"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="cardExpense">₹0.00</div>
+                        <div class="stat-subtext">
+                            <i class="fa-solid fa-clock-rotate-left text-danger"></i>
+                            <span>Spending for selected period</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Current Balance -->
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="stat-card balance">
+                        <div class="stat-header">
+                            <span class="stat-label">Net Balance</span>
+                            <div class="stat-icon balance">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="cardBalance">₹0.00</div>
+                        <div class="stat-subtext" id="cardBalanceSubtext">
+                            <i class="fa-solid fa-shield-halved text-primary"></i>
+                            <span>Income minus expenses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Savings Rate -->
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="stat-card savings">
+                        <div class="stat-header">
+                            <span class="stat-label">Savings Rate</span>
+                            <div class="stat-icon savings">
+                                <i class="fa-solid fa-piggy-bank"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="cardSavingsRate">0.0%</div>
+                        <div class="stat-subtext">
+                            <i class="fa-solid fa-percent text-secondary"></i>
+                            <span>Target: &gt; 20% of monthly income</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Number of Transactions -->
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="stat-card transactions">
+                        <div class="stat-header">
+                            <span class="stat-label">Transactions</span>
+                            <div class="stat-icon transactions">
+                                <i class="fa-solid fa-receipt"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="cardTxCount">0</div>
+                        <div class="stat-subtext">
+                            <i class="fa-solid fa-list-check text-info"></i>
+                            <span>Records in selected period</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Highest Spending Category -->
+                <div class="col-12 col-sm-6 col-xl-4">
+                    <div class="stat-card category">
+                        <div class="stat-header">
+                            <span class="stat-label">Top Category</span>
+                            <div class="stat-icon category">
+                                <i class="fa-solid fa-crown"></i>
+                            </div>
+                        </div>
+                        <div class="stat-value" id="cardTopCategory">None</div>
+                        <div class="stat-subtext" id="cardTopCategorySubtext">
+                            <i class="fa-solid fa-fire text-warning"></i>
+                            <span>₹0.00 spent</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="row g-4 mb-4">
+                <!-- Monthly Spending Trend (Bar Chart) -->
+                <div class="col-12 col-lg-7">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-chart-column text-primary"></i>
+                                <span>Income vs Expenses Trend</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method">Last 6 Months</span>
+                        </div>
+                        <div style="position: relative; height: 310px; width: 100%;">
+                            <canvas id="monthlyChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category-wise Expense (Doughnut Chart) -->
+                <div class="col-12 col-lg-5">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-chart-pie text-secondary"></i>
+                                <span>Category Breakdown</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method" id="categoryChartPeriodLabel">October 2026</span>
+                        </div>
+                        <div style="position: relative; height: 310px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <canvas id="categoryChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Insights & Recent Transactions -->
+            <div class="row g-4">
+                <!-- Smart Financial Insights -->
+                <div class="col-12 col-lg-4">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-brain text-warning"></i>
+                                <span>Financial Insights</span>
+                            </h3>
+                            <span class="badge badge-custom badge-income">Rule-Engine</span>
+                        </div>
+                        <div id="insightsContainer">
+                            <div class="text-center py-4 text-muted">
+                                <i class="fa-solid fa-spinner fa-spin fs-4 mb-2"></i>
+                                <p class="small mb-0">Analyzing your transactions...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions Table -->
+                <div class="col-12 col-lg-8">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-list-check text-primary"></i>
+                                <span>Recent Transactions</span>
+                            </h3>
+                            <a href="transactions.html" class="btn btn-outline-custom btn-sm">
+                                <span>View All</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        </div>
+                        <div class="table-responsive-custom">
+                            <table class="table-custom">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Type</th>
+                                        <th>Payment</th>
+                                        <th class="text-end">Amount</th>
+                                        <th class="text-center">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentTransactionsTableBody">
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4 text-muted">
+                                            <i class="fa-solid fa-spinner fa-spin me-2"></i> Loading recent records...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add / Edit Transaction Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold" id="transactionModalTitle">
+                        <i class="fa-solid fa-circle-plus text-primary me-2"></i>
+                        <span>Add Transaction</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="transactionForm" novalidate>
+                    <div class="modal-body modal-body-custom">
+                        <input type="hidden" id="txId">
+
+                        <!-- Type Selector (Income vs Expense) -->
+                        <div class="mb-3">
+                            <label class="form-label-custom">Transaction Type</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="txType" id="typeExpense" value="EXPENSE" checked>
+                                <label class="btn btn-outline-danger fw-bold" for="typeExpense">
+                                    <i class="fa-solid fa-minus me-1"></i> Expense
+                                </label>
+                                <input type="radio" class="btn-check" name="txType" id="typeIncome" value="INCOME">
+                                <label class="btn btn-outline-success fw-bold" for="typeIncome">
+                                    <i class="fa-solid fa-plus me-1"></i> Income
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="txTitle" class="form-label-custom">Title / Payee <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-custom" id="txTitle" placeholder="e.g. Supermarket Grocery, Salary" required maxlength="255">
+                            <div class="invalid-feedback">Please enter a valid title.</div>
+                        </div>
+
+                        <!-- Amount & Date (2 columns) -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="txAmount" class="form-label-custom">Amount <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted" id="currencyPrefix">₹</span>
+                                    <input type="number" step="0.01" min="0.01" class="form-control form-control-custom border-start-0" id="txAmount" placeholder="0.00" required>
+                                </div>
+                                <div class="invalid-feedback">Enter a positive amount.</div>
+                            </div>
+                            <div class="col-6">
+                                <label for="txDate" class="form-label-custom">Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control form-control-custom" id="txDate" required>
+                                <div class="invalid-feedback">Please select a date.</div>
+                            </div>
+                        </div>
+
+                        <!-- Category & Payment Method (2 columns) -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="txCategory" class="form-label-custom">Category <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-custom" id="txCategory" required>
+                                    <!-- Populated dynamically based on type -->
+                                </select>
+                                <div class="invalid-feedback">Please select a category.</div>
+                            </div>
+                            <div class="col-6">
+                                <label for="txPaymentMethod" class="form-label-custom">Payment Method <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-custom" id="txPaymentMethod" required>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="Debit Card">Debit Card</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                    <option value="Cash">Cash</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a payment method.</div>
+                            </div>
+                        </div>
+
+                        <!-- Description (Optional) -->
+                        <div class="mb-3">
+                            <label for="txDescription" class="form-label-custom">Description / Notes <span class="text-muted small">(Optional)</span></label>
+                            <textarea class="form-control form-control-custom" id="txDescription" rows="2" placeholder="Add extra context or invoice details..." maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-custom">
+                        <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-custom" id="btnSaveTransaction">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Save Transaction</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Transaction Details Modal -->
+    <div class="modal fade" id="viewTransactionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa-solid fa-circle-info text-info me-2"></i>
+                        <span>Transaction Details</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom" id="viewTxDetailsBody">
+                    <!-- Populated via JS -->
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content modal-content-custom text-center p-3">
+                <div class="modal-body">
+                    <div class="empty-state-icon text-danger bg-danger-subtle mb-3">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Delete Transaction?</h5>
+                    <p class="text-muted small mb-4">This action cannot be undone. Are you sure you want to permanently delete this record?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-custom btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger-custom btn-sm px-3" id="btnConfirmDelete">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>

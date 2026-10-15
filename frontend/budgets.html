@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budgets — SmartSpend</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z'/></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="brand-text">
+                <h2>SmartSpend</h2>
+                <span>Track Smarter. Spend Better.</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Menu</div>
+            <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="transactions.html" class="sidebar-link">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="budgets.html" class="sidebar-link active">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Budgets</span>
+            </a>
+            <a href="reports.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Reports & Analytics</span>
+            </a>
+
+            <div class="nav-section-title mt-4">System</div>
+            <a href="settings.html" class="sidebar-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-badge">
+                <div class="user-avatar" id="userAvatar">SS</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Alex Morgan</div>
+                    <div class="user-role" id="userEmail">demo@smartspend.com</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" id="btnLogout" title="Sign out of your account">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Sticky Header -->
+        <header class="top-navbar">
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Monthly Budgets</h1>
+                    <p>Set spending caps by category and track utilization progress</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Month & Year Selector -->
+                <div class="d-flex align-items-center gap-2">
+                    <select id="budgetMonthSelect" class="form-select form-select-custom form-select-sm" style="width: 130px;">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="budgetYearSelect" class="form-select form-select-custom form-select-sm" style="width: 100px;">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <button type="button" class="btn btn-primary-custom btn-sm" id="btnOpenAddBudget">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Set Budget</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Body Content -->
+        <main class="content-body">
+            <!-- Overall Monthly Budget Summary Banner -->
+            <div class="card-custom mb-4" id="overallBudgetCard">
+                <div class="card-header-custom">
+                    <div>
+                        <h4 class="fw-bold mb-1" id="overallBudgetTitle">Budget Overview for October 2026</h4>
+                        <span class="small text-muted">Tracking total planned expenses vs actual spend</span>
+                    </div>
+                    <span class="badge badge-custom" id="overallBudgetBadge">Calculating...</span>
+                </div>
+
+                <div class="progress-custom mb-3" style="height: 14px;">
+                    <div id="overallProgressBar" class="progress-bar-custom progress-normal" style="width: 0%;"></div>
+                </div>
+
+                <div class="row g-3 text-center text-sm-start">
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Total Budget</small>
+                        <span class="fs-5 fw-bold text-dark" id="overallTotalLimit">₹0.00</span>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Total Spent</small>
+                        <span class="fs-5 fw-bold text-danger" id="overallTotalSpent">₹0.00</span>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Remaining</small>
+                        <span class="fs-5 fw-bold text-success" id="overallTotalRemaining">₹0.00</span>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <small class="text-muted d-block">Overall Utilization</small>
+                        <span class="fs-5 fw-bold text-primary" id="overallUtilizationPct">0.0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budgets Grid -->
+            <div class="row g-4" id="budgetCardsContainer">
+                <!-- Dynamically loaded cards -->
+                <div class="col-12 text-center py-5 text-muted">
+                    <i class="fa-solid fa-spinner fa-spin fs-4 mb-2 d-block"></i>
+                    Loading monthly budgets...
+                </div>
+            </div>
+
+            <!-- Empty State Container -->
+            <div id="budgetEmptyState" class="empty-state d-none card-custom">
+                <div class="empty-state-icon">
+                    <i class="fa-solid fa-bullseye"></i>
+                </div>
+                <h4>No Budgets Set For This Month</h4>
+                <p>Creating category budgets helps you curb impulse spending, track limit warnings, and grow your monthly savings.</p>
+                <button type="button" class="btn btn-primary-custom" onclick="document.getElementById('btnOpenAddBudget').click()">
+                    <i class="fa-solid fa-plus"></i> Set First Category Budget
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add / Edit Budget Modal -->
+    <div class="modal fade" id="budgetModal" tabindex="-1" aria-labelledby="budgetModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold" id="budgetModalTitle">
+                        <i class="fa-solid fa-bullseye text-primary me-2"></i>
+                        <span>Create Monthly Budget</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="budgetForm" novalidate>
+                    <div class="modal-body modal-body-custom">
+                        <input type="hidden" id="budgetId">
+
+                        <!-- Category Selector -->
+                        <div class="mb-3">
+                            <label for="budgetCategory" class="form-label-custom">Expense Category <span class="text-danger">*</span></label>
+                            <select class="form-select form-select-custom" id="budgetCategory" required>
+                                <!-- Populated dynamically -->
+                            </select>
+                            <div class="invalid-feedback">Please choose an expense category.</div>
+                        </div>
+
+                        <!-- Monthly Limit Amount -->
+                        <div class="mb-3">
+                            <label for="budgetLimit" class="form-label-custom">Monthly Spending Limit <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-transparent border-end-0 text-muted" id="budgetCurrencyPrefix">₹</span>
+                                <input type="number" step="0.01" min="0.01" class="form-control form-control-custom border-start-0" id="budgetLimit" placeholder="e.g. 8000.00" required>
+                            </div>
+                            <div class="invalid-feedback">Please enter a positive limit greater than 0.</div>
+                        </div>
+
+                        <!-- Month & Year (2 columns) -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="modalBudgetMonth" class="form-label-custom">Month <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-custom" id="modalBudgetMonth" required>
+                                    <option value="1">January</option>
+                                    <option value="2">February</option>
+                                    <option value="3">March</option>
+                                    <option value="4">April</option>
+                                    <option value="5">May</option>
+                                    <option value="6">June</option>
+                                    <option value="7">July</option>
+                                    <option value="8">August</option>
+                                    <option value="9">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label for="modalBudgetYear" class="form-label-custom">Year <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-custom" id="modalBudgetYear" required>
+                                    <option value="2026">2026</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-custom">
+                        <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-custom" id="btnSaveBudget">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Save Budget</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteBudgetModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content modal-content-custom text-center p-3">
+                <div class="modal-body">
+                    <div class="empty-state-icon text-danger bg-danger-subtle mb-3">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Delete Budget?</h5>
+                    <p class="text-muted small mb-4">Are you sure you want to remove this category budget?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-custom btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger-custom btn-sm px-3" id="btnConfirmDeleteBudget">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/budgets.js"></script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings — SmartSpend</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z'/></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="brand-text">
+                <h2>SmartSpend</h2>
+                <span>Track Smarter. Spend Better.</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Menu</div>
+            <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="transactions.html" class="sidebar-link">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="budgets.html" class="sidebar-link">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Budgets</span>
+            </a>
+            <a href="reports.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Reports & Analytics</span>
+            </a>
+
+            <div class="nav-section-title mt-4">System</div>
+            <a href="settings.html" class="sidebar-link active">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-badge">
+                <div class="user-avatar" id="userAvatar">SS</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Alex Morgan</div>
+                    <div class="user-role" id="userEmail">demo@smartspend.com</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" id="btnLogout" title="Sign out of your account">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Sticky Header -->
+        <header class="top-navbar">
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Settings & Preferences</h1>
+                    <p>Customize display currency, formatting, themes, and manage data</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <button type="button" class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Body Content -->
+        <main class="content-body">
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-lg-8">
+                    <!-- User Account Card -->
+                    <div class="card-custom mb-4">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-circle-user text-primary"></i>
+                                <span>User Account</span>
+                            </h3>
+                            <span class="badge badge-custom badge-income">Active Session</span>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-light">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="user-avatar" id="accountAvatar" style="width: 48px; height: 48px; font-size: 1.1rem;">SS</div>
+                                <div>
+                                    <h5 class="fw-bold mb-0 text-dark" id="accountFullName">Loading...</h5>
+                                    <span class="text-muted small" id="accountEmail">loading...</span>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="btnAccountLogout">
+                                <i class="fa-solid fa-arrow-right-from-bracket me-1"></i> Sign Out
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Form Card -->
+                    <div class="card-custom mb-4">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-palette text-primary"></i>
+                                <span>Display & Localization</span>
+                            </h3>
+                            <span class="badge badge-custom badge-category">Local Storage</span>
+                        </div>
+
+                        <form id="settingsForm">
+                            <!-- Currency -->
+                            <div class="mb-4">
+                                <label for="settingCurrency" class="form-label-custom">Preferred Currency Symbol</label>
+                                <select id="settingCurrency" class="form-select form-select-custom">
+                                    <option value="₹" data-code="INR">₹ — Indian Rupee (INR)</option>
+                                    <option value="$" data-code="USD">$ — US Dollar (USD)</option>
+                                    <option value="€" data-code="EUR">€ — Euro (EUR)</option>
+                                    <option value="£" data-code="GBP">£ — British Pound (GBP)</option>
+                                    <option value="¥" data-code="JPY">¥ — Japanese Yen (JPY)</option>
+                                    <option value="A$" data-code="AUD">A$ — Australian Dollar (AUD)</option>
+                                    <option value="C$" data-code="CAD">C$ — Canadian Dollar (CAD)</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">Default is Indian Rupee (₹). Applied across all amounts and charts.</small>
+                            </div>
+
+                            <!-- Number Formatting -->
+                            <div class="mb-4">
+                                <label for="settingNumberFormat" class="form-label-custom">Numbering System</label>
+                                <select id="settingNumberFormat" class="form-select form-select-custom">
+                                    <option value="indian">Indian System (Lakhs & Crores — e.g. ₹1,25,000.00)</option>
+                                    <option value="international">International System (Millions — e.g. 125,000.00)</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">Controls comma grouping separators for large financial totals.</small>
+                            </div>
+
+                            <!-- Date Format -->
+                            <div class="mb-4">
+                                <label for="settingDateFormat" class="form-label-custom">Date Display Format</label>
+                                <select id="settingDateFormat" class="form-select form-select-custom">
+                                    <option value="DD/MM/YYYY">DD/MM/YYYY (e.g. 15/10/2026)</option>
+                                    <option value="MM/DD/YYYY">MM/DD/YYYY (e.g. 10/15/2026)</option>
+                                    <option value="YYYY-MM-DD">YYYY-MM-DD (e.g. 2026-10-15)</option>
+                                </select>
+                            </div>
+
+                            <!-- Theme Selection -->
+                            <div class="mb-4">
+                                <label class="form-label-custom">Color Theme</label>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <div class="form-check p-3 border rounded-3 cursor-pointer" id="themeLightOption">
+                                            <input class="form-check-input" type="radio" name="settingTheme" id="themeLight" value="light" checked>
+                                            <label class="form-check-label fw-bold d-block cursor-pointer" for="themeLight">
+                                                <i class="fa-solid fa-sun text-warning me-1"></i> Light Theme
+                                            </label>
+                                            <small class="text-muted">Clean white and navy blue dashboard</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check p-3 border rounded-3 cursor-pointer" id="themeDarkOption">
+                                            <input class="form-check-input" type="radio" name="settingTheme" id="themeDark" value="dark">
+                                            <label class="form-check-label fw-bold d-block cursor-pointer" for="themeDark">
+                                                <i class="fa-solid fa-moon text-primary me-1"></i> Dark Theme
+                                            </label>
+                                            <small class="text-muted">High-contrast midnight dark mode</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary-custom" id="btnSaveSettings">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Save Preferences</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Data Management Card -->
+                    <div class="card-custom mb-4">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-database text-warning"></i>
+                                <span>Data Management & Demo Utilities</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method">MySQL Database</span>
+                        </div>
+                        <p class="text-muted small mb-3">
+                            Need a fresh start or want to reset back to the realistic portfolio dataset for testing? Use the action below.
+                        </p>
+                        <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-light">
+                            <div>
+                                <h6 class="fw-bold mb-1">Reset / Reload Demo Dataset</h6>
+                                <small class="text-muted">Resets transactions and budgets to default sample data across months.</small>
+                            </div>
+                            <button type="button" class="btn btn-outline-danger btn-sm" id="btnTriggerReset">
+                                <i class="fa-solid fa-rotate"></i> Reset Demo Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- System Information Card -->
+                    <div class="card-custom">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-circle-info text-info"></i>
+                                <span>Project Architecture & Stack</span>
+                            </h3>
+                            <span class="badge badge-custom badge-income">Verified</span>
+                        </div>
+                        <div class="row g-3 small">
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">Application</span>
+                                <strong>SmartSpend v1.0</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">Backend</span>
+                                <strong>Spring Boot 3.3.5</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">Runtime</span>
+                                <strong>Java 21 / 26</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">Database</span>
+                                <strong>MySQL 8.0 (InnoDB)</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">ORM</span>
+                                <strong>Hibernate Data JPA</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">UI Framework</span>
+                                <strong>Bootstrap 5 & Chart.js</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">Icons</span>
+                                <strong>Font Awesome 6</strong>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <span class="text-muted d-block">Architecture</span>
+                                <strong>Clean Layered REST</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Reset Confirmation Modal -->
+    <div class="modal fade" id="resetConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content modal-content-custom text-center p-3">
+                <div class="modal-body">
+                    <div class="empty-state-icon text-warning bg-warning-subtle mb-3">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Reset Demo Data?</h5>
+                    <p class="text-muted small mb-4">This will clear existing records and restore the complete initial demonstration dataset.</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-custom btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger-custom btn-sm px-3" id="btnConfirmReset">Yes, Reset</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+</html>

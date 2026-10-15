@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics — SmartSpend</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z'/></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="brand-text">
+                <h2>SmartSpend</h2>
+                <span>Track Smarter. Spend Better.</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Menu</div>
+            <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="transactions.html" class="sidebar-link">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="budgets.html" class="sidebar-link">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Budgets</span>
+            </a>
+            <a href="reports.html" class="sidebar-link active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Reports & Analytics</span>
+            </a>
+
+            <div class="nav-section-title mt-4">System</div>
+            <a href="settings.html" class="sidebar-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-badge">
+                <div class="user-avatar" id="userAvatar">SS</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Alex Morgan</div>
+                    <div class="user-role" id="userEmail">demo@smartspend.com</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" id="btnLogout" title="Sign out of your account">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Sticky Header -->
+        <header class="top-navbar">
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Reports & Analytics</h1>
+                    <p>In-depth spending trends, category distributions, and CSV exports</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <!-- Year & Month Selector -->
+                <div class="d-flex align-items-center gap-2">
+                    <select id="reportMonthSelect" class="form-select form-select-custom form-select-sm" style="width: 130px;">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    <select id="reportYearSelect" class="form-select form-select-custom form-select-sm" style="width: 100px;">
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <button type="button" class="btn btn-outline-custom btn-sm" id="btnExportReportCsv">
+                    <i class="fa-solid fa-file-csv text-success"></i>
+                    <span>Export CSV</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Body Content -->
+        <main class="content-body">
+            <!-- Analytics Summary Metric Cards -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="stat-card income p-3">
+                        <span class="stat-label">Total Income (Period)</span>
+                        <div class="fs-4 fw-bold text-success" id="reportTotalIncome">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card expense p-3">
+                        <span class="stat-label">Total Expense (Period)</span>
+                        <div class="fs-4 fw-bold text-danger" id="reportTotalExpense">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card balance p-3">
+                        <span class="stat-label">Net Savings</span>
+                        <div class="fs-4 fw-bold text-primary" id="reportNetSavings">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card savings p-3">
+                        <span class="stat-label">Savings Rate</span>
+                        <div class="fs-4 fw-bold text-purple" id="reportSavingsRate">0.0%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 1: Annual Income vs Expense & Category Doughnut -->
+            <div class="row g-4 mb-4">
+                <!-- 1. Annual Monthly Bar Chart -->
+                <div class="col-12 col-lg-7">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-chart-column text-primary"></i>
+                                <span id="annualChartTitle">Monthly Income vs Expenses (2026)</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method">Annual Overview</span>
+                        </div>
+                        <div style="position: relative; height: 320px; width: 100%;">
+                            <canvas id="annualBarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Category Doughnut Chart -->
+                <div class="col-12 col-lg-5">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-chart-pie text-secondary"></i>
+                                <span>Category Spending Share</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method" id="reportCategoryPeriodBadge">October 2026</span>
+                        </div>
+                        <div style="position: relative; height: 320px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <canvas id="categoryReportChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row 2: Daily Expenses Timeline & Payment Method Distribution -->
+            <div class="row g-4 mb-4">
+                <!-- 3. Daily Expenses Line Chart -->
+                <div class="col-12 col-lg-7">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-chart-line text-danger"></i>
+                                <span>Daily Spending Peaks</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method" id="dailyChartPeriodBadge">Day-by-Day</span>
+                        </div>
+                        <div style="position: relative; height: 300px; width: 100%;">
+                            <canvas id="dailyExpenseChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Payment Method Distribution Chart -->
+                <div class="col-12 col-lg-5">
+                    <div class="card-custom h-100">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-credit-card text-info"></i>
+                                <span>Payment Channels</span>
+                            </h3>
+                            <span class="badge badge-custom badge-method">Distribution</span>
+                        </div>
+                        <div style="position: relative; height: 300px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                            <canvas id="paymentMethodChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Row 3: Monthly Savings Trend (Area Line) -->
+            <div class="row g-4 mb-4">
+                <div class="col-12">
+                    <div class="card-custom">
+                        <div class="card-header-custom">
+                            <h3 class="card-title-custom">
+                                <i class="fa-solid fa-arrow-trend-up text-success"></i>
+                                <span>Net Savings Trajectory Over Time</span>
+                            </h3>
+                            <span class="badge badge-custom badge-income">Cumulative Wealth</span>
+                        </div>
+                        <div style="position: relative; height: 260px; width: 100%;">
+                            <canvas id="savingsTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Aggregation Report Table -->
+            <div class="card-custom">
+                <div class="card-header-custom">
+                    <h3 class="card-title-custom">
+                        <i class="fa-solid fa-table-list text-primary"></i>
+                        <span id="monthlyTableTitle">Monthly Financial Breakdown (2026)</span>
+                    </h3>
+                    <span class="badge badge-custom badge-method">12 Months Summary</span>
+                </div>
+                <div class="table-responsive-custom">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th class="text-end">Income</th>
+                                <th class="text-end">Expenses</th>
+                                <th class="text-end">Net Savings</th>
+                                <th class="text-center">Savings Rate</th>
+                                <th class="text-center">Transactions</th>
+                                <th class="text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="monthlyReportTableBody">
+                            <tr>
+                                <td colspan="7" class="text-center py-4 text-muted">
+                                    <i class="fa-solid fa-spinner fa-spin me-2"></i> Loading annual breakdown...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>

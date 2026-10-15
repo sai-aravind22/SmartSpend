@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transactions — SmartSpend</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234f46e5'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z'/></svg>">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </div>
+            <div class="brand-text">
+                <h2>SmartSpend</h2>
+                <span>Track Smarter. Spend Better.</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-title">Menu</div>
+            <a href="index.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="transactions.html" class="sidebar-link active">
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transactions</span>
+            </a>
+            <a href="budgets.html" class="sidebar-link">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Budgets</span>
+            </a>
+            <a href="reports.html" class="sidebar-link">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Reports & Analytics</span>
+            </a>
+
+            <div class="nav-section-title mt-4">System</div>
+            <a href="settings.html" class="sidebar-link">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-badge">
+                <div class="user-avatar" id="userAvatar">SS</div>
+                <div class="user-info">
+                    <div class="user-name" id="userName">Alex Morgan</div>
+                    <div class="user-role" id="userEmail">demo@smartspend.com</div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-logout w-100 d-flex align-items-center justify-content-center gap-2" id="btnLogout" title="Sign out of your account">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+        <!-- Top Sticky Header -->
+        <header class="top-navbar">
+            <div class="d-flex align-items-center gap-3">
+                <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Toggle navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Transactions</h1>
+                    <p>Manage, search, and filter all your financial entries</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <button type="button" class="btn-icon theme-toggle-btn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+                <button type="button" class="btn btn-outline-custom btn-sm" id="btnExportCsv">
+                    <i class="fa-solid fa-file-csv text-success"></i>
+                    <span>Export CSV</span>
+                </button>
+
+                <button type="button" class="btn btn-primary-custom btn-sm" id="btnOpenAddModal">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Add Transaction</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Body Content -->
+        <main class="content-body">
+            <!-- Filter & Search Toolbar Card -->
+            <div class="filter-card">
+                <div class="row g-3">
+                    <!-- Search Input -->
+                    <div class="col-12 col-md-4">
+                        <label class="form-label-custom">Search</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-end-0 text-muted">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </span>
+                            <input type="text" id="filterSearch" class="form-control form-control-custom border-start-0" placeholder="Search title or description...">
+                        </div>
+                    </div>
+
+                    <!-- Type Filter -->
+                    <div class="col-6 col-md-2">
+                        <label class="form-label-custom">Type</label>
+                        <select id="filterType" class="form-select form-select-custom">
+                            <option value="">All Types</option>
+                            <option value="INCOME">Income</option>
+                            <option value="EXPENSE">Expense</option>
+                        </select>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="col-6 col-md-3">
+                        <label class="form-label-custom">Category</label>
+                        <select id="filterCategory" class="form-select form-select-custom">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+
+                    <!-- Payment Method Filter -->
+                    <div class="col-6 col-md-3">
+                        <label class="form-label-custom">Payment Method</label>
+                        <select id="filterPayment" class="form-select form-select-custom">
+                            <option value="">All Methods</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                            <option value="Net Banking">Net Banking</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                    </div>
+
+                    <!-- Date Range: Start Date -->
+                    <div class="col-6 col-md-3">
+                        <label class="form-label-custom">Start Date</label>
+                        <input type="date" id="filterStartDate" class="form-control form-control-custom">
+                    </div>
+
+                    <!-- Date Range: End Date -->
+                    <div class="col-6 col-md-3">
+                        <label class="form-label-custom">End Date</label>
+                        <input type="date" id="filterEndDate" class="form-control form-control-custom">
+                    </div>
+
+                    <!-- Sort By -->
+                    <div class="col-6 col-md-2">
+                        <label class="form-label-custom">Sort By</label>
+                        <select id="filterSortBy" class="form-select form-select-custom">
+                            <option value="transactionDate">Date</option>
+                            <option value="amount">Amount</option>
+                            <option value="title">Title</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort Order -->
+                    <div class="col-6 col-md-2">
+                        <label class="form-label-custom">Order</label>
+                        <select id="filterSortDirection" class="form-select form-select-custom">
+                            <option value="DESC">Newest / Highest</option>
+                            <option value="ASC">Oldest / Lowest</option>
+                        </select>
+                    </div>
+
+                    <!-- Clear Filters Button -->
+                    <div class="col-12 col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-custom w-100" id="btnClearFilters">
+                            <i class="fa-solid fa-rotate-left"></i>
+                            <span>Clear</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Strip -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card income p-3">
+                        <span class="stat-label">Filtered Income</span>
+                        <div class="fs-4 fw-bold text-success" id="summaryFilteredIncome">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card expense p-3">
+                        <span class="stat-label">Filtered Expenses</span>
+                        <div class="fs-4 fw-bold text-danger" id="summaryFilteredExpense">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card balance p-3">
+                        <span class="stat-label">Filtered Net</span>
+                        <div class="fs-4 fw-bold text-primary" id="summaryFilteredNet">₹0.00</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="stat-card transactions p-3">
+                        <span class="stat-label">Records Found</span>
+                        <div class="fs-4 fw-bold text-info" id="summaryFilteredCount">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transaction Table Card -->
+            <div class="card-custom">
+                <div class="card-header-custom">
+                    <h3 class="card-title-custom">
+                        <i class="fa-solid fa-list-check text-primary"></i>
+                        <span>Transaction Records</span>
+                    </h3>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="small text-muted" id="paginationInfo">Showing 0 of 0 records</span>
+                    </div>
+                </div>
+
+                <div class="table-responsive-custom">
+                    <table class="table-custom">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Title / Payee</th>
+                                <th>Category</th>
+                                <th>Type</th>
+                                <th>Payment Method</th>
+                                <th class="text-end">Amount</th>
+                                <th class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody">
+                            <tr>
+                                <td colspan="7" class="text-center py-5 text-muted">
+                                    <i class="fa-solid fa-spinner fa-spin fs-4 mb-2 d-block"></i>
+                                    Loading transactions...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Empty State Container (shown when no records match) -->
+                <div id="tableEmptyState" class="empty-state d-none">
+                    <div class="empty-state-icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <h4>No Transactions Found</h4>
+                    <p>No transactions match your current search and filter criteria. Try adjusting your filters or add a new transaction.</p>
+                    <button type="button" class="btn btn-outline-custom btn-sm me-2" onclick="document.getElementById('btnClearFilters').click()">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Filters
+                    </button>
+                    <button type="button" class="btn btn-primary-custom btn-sm" onclick="document.getElementById('btnOpenAddModal').click()">
+                        <i class="fa-solid fa-plus"></i> Add Transaction
+                    </button>
+                </div>
+
+                <!-- Pagination Footer -->
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center pt-3 border-top mt-3" id="paginationContainer">
+                    <div class="small text-muted mb-2 mb-sm-0" id="paginationDetails">
+                        Page 1 of 1
+                    </div>
+                    <ul class="pagination pagination-sm mb-0 gap-1" id="paginationControls">
+                        <!-- Dynamic pagination links -->
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add / Edit Transaction Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold" id="transactionModalTitle">
+                        <i class="fa-solid fa-circle-plus text-primary me-2"></i>
+                        <span>Add Transaction</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="transactionForm" novalidate>
+                    <div class="modal-body modal-body-custom">
+                        <input type="hidden" id="txId">
+
+                        <!-- Type Selector (Income vs Expense) -->
+                        <div class="mb-3">
+                            <label class="form-label-custom">Transaction Type</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="txType" id="typeExpense" value="EXPENSE" checked>
+                                <label class="btn btn-outline-danger fw-bold" for="typeExpense">
+                                    <i class="fa-solid fa-minus me-1"></i> Expense
+                                </label>
+                                <input type="radio" class="btn-check" name="txType" id="typeIncome" value="INCOME">
+                                <label class="btn btn-outline-success fw-bold" for="typeIncome">
+                                    <i class="fa-solid fa-plus me-1"></i> Income
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="mb-3">
+                            <label for="txTitle" class="form-label-custom">Title / Payee <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control form-control-custom" id="txTitle" placeholder="e.g. Supermarket Grocery, Salary" required maxlength="255">
+                            <div class="invalid-feedback">Please enter a valid title.</div>
+                        </div>
+
+                        <!-- Amount & Date (2 columns) -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="txAmount" class="form-label-custom">Amount <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted" id="currencyPrefix">₹</span>
+                                    <input type="number" step="0.01" min="0.01" class="form-control form-control-custom border-start-0" id="txAmount" placeholder="0.00" required>
+                                </div>
+                                <div class="invalid-feedback">Enter a positive amount.</div>
+                            </div>
+                            <div class="col-6">
+                                <label for="txDate" class="form-label-custom">Date <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control form-control-custom" id="txDate" required>
+                                <div class="invalid-feedback">Please select a date.</div>
+                            </div>
+                        </div>
+
+                        <!-- Category & Payment Method (2 columns) -->
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label for="txCategory" class="form-label-custom">Category <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-custom" id="txCategory" required>
+                                    <!-- Populated dynamically based on type -->
+                                </select>
+                                <div class="invalid-feedback">Please select a category.</div>
+                            </div>
+                            <div class="col-6">
+                                <label for="txPaymentMethod" class="form-label-custom">Payment Method <span class="text-danger">*</span></label>
+                                <select class="form-select form-select-custom" id="txPaymentMethod" required>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Credit Card">Credit Card</option>
+                                    <option value="Debit Card">Debit Card</option>
+                                    <option value="Bank Transfer">Bank Transfer</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                    <option value="Cash">Cash</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a payment method.</div>
+                            </div>
+                        </div>
+
+                        <!-- Description (Optional) -->
+                        <div class="mb-3">
+                            <label for="txDescription" class="form-label-custom">Description / Notes <span class="text-muted small">(Optional)</span></label>
+                            <textarea class="form-control form-control-custom" id="txDescription" rows="2" placeholder="Add extra context, item breakdown..." maxlength="1000"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer modal-footer-custom">
+                        <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary-custom" id="btnSaveTransaction">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Save Transaction</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Transaction Details Modal -->
+    <div class="modal fade" id="viewTransactionModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content modal-content-custom">
+                <div class="modal-header modal-header-custom">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa-solid fa-circle-info text-info me-2"></i>
+                        <span>Transaction Details</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body modal-body-custom" id="viewTxDetailsBody">
+                    <!-- Populated via JS -->
+                </div>
+                <div class="modal-footer modal-footer-custom">
+                    <button type="button" class="btn btn-outline-custom" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content modal-content-custom text-center p-3">
+                <div class="modal-body">
+                    <div class="empty-state-icon text-danger bg-danger-subtle mb-3">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Delete Transaction?</h5>
+                    <p class="text-muted small mb-4">This action cannot be undone. Are you sure you want to permanently delete this record?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-custom btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger-custom btn-sm px-3" id="btnConfirmDelete">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/transactions.js"></script>
+</body>
+</html>
